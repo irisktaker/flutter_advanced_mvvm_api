@@ -7,3 +7,4 @@ export 'values_manager.dart';
 export 'string_manager.dart';
 export 'assets_manager.dart';
 export 'constants_manager.dart';
+export 'logger.dart';

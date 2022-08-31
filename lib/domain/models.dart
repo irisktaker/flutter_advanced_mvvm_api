@@ -34,8 +34,8 @@ class Contacts {
   Contacts(this.phone, this.email, this.link);
 }
 
-class Authentication {
-  Customer customer;
-  Contacts contacts;
+class Authentication { // any type is not permeative (as String, int, ..) must be inside the model can be null ? and we handel later using mapper (toDomain)
+  Customer? customer; 
+  Contacts? contacts;
   Authentication(this.customer, this.contacts);
 }
