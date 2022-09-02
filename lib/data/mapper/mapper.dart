@@ -1,6 +1,6 @@
 import 'package:advanced_flutter/app/constants.dart';
 import 'package:advanced_flutter/data/response/responses.dart';
-import 'package:advanced_flutter/domain/models.dart';
+import 'package:advanced_flutter/domain/models/models.dart';
 
 import 'package:advanced_flutter/app/extensions.dart';
 

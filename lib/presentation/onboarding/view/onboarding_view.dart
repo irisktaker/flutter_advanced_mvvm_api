@@ -1,4 +1,4 @@
-import 'package:advanced_flutter/domain/models.dart';
+import 'package:advanced_flutter/domain/models/models.dart';
 import 'package:advanced_flutter/presentation/onboarding/viewmodel/onboarding_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

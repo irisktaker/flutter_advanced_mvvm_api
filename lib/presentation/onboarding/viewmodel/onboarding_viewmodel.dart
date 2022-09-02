@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:advanced_flutter/domain/models.dart';
+import 'package:advanced_flutter/domain/models/models.dart';
 import 'package:advanced_flutter/presentation/base/base_viewmodel.dart';
 import 'package:advanced_flutter/presentation/resources/all_resources.dart';
 
