@@ -2,7 +2,10 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:advanced_flutter/app/constants.dart';
+import 'package:advanced_flutter/presentation/resources/logger.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 const String APPLICATION_JSON = "application/json";
 const String CONTENT_TYPE = "content-type";
@@ -14,21 +17,30 @@ class DioFactory {
   Future<Dio> getDio() async {
   Dio dio = Dio();
     
-    int _timeOut = 60*1000;
-    
-    Map<String,String> headers = {
-      CONTENT_TYPE: APPLICATION_JSON,
-      ACCEPT: APPLICATION_JSON,
-      AUTHORIZATION: "Send Token Here",
-      DEFAULT_LANGUAGE: "en", // todo get lang from app prefs
-    };
+  Map<String,String> headers = {
+    CONTENT_TYPE: APPLICATION_JSON,
+    ACCEPT: APPLICATION_JSON,
+    AUTHORIZATION: Constants.token,
+    DEFAULT_LANGUAGE: "en", // todo get lang from app prefs
+  };
 
-    dio.options = BaseOptions(
-      baseUrl: Constants.baseUrl,
-      headers: headers,
-      receiveTimeout: _timeOut,
-      sendTimeout: _timeOut,
-    );
+  dio.options = BaseOptions(
+    baseUrl: Constants.baseUrl,
+    headers: headers,
+    receiveTimeout: Constants.apiTimeOut,
+    sendTimeout: Constants.apiTimeOut,
+  );
+
+  if(kReleaseMode) {
+    LoggerDebug.loggerDebugMessage('no logs in release mode');
+  } else 
+    { //? Print only on debug mode - if in release mode it will be good info for hackers -_>
+      dio.interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: true,
+      ));
+    }
 
     return dio;
   }
