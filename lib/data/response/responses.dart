@@ -54,7 +54,7 @@ class AuthenticationResponse extends BaseResponse {
   ContactsResponse? contacts;
   AuthenticationResponse(this.customer, this.contacts);
 
-  // fromJson
+  // fromJson ( Authentication Response )
   factory AuthenticationResponse.fromJson(Map<String, dynamic> json) => _$AuthenticationResponseFromJson(json);
   // toJson
   Map<String, dynamic> toJson() => _$AuthenticationResponseToJson(this); // this returns to AuthenticationResponse

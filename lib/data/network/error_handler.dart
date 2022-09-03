@@ -134,6 +134,7 @@ class ResponseCode {
 }
 
 class ResponseMessage {
+
   static const String SUCCESS = "Success.";
   static const String NO_CONTENT = "Success.";
   static const String BAD_REQUEST = "Bad request, Try again later."; 
@@ -151,4 +152,9 @@ class ResponseMessage {
   static const String NO_INTERNET_CONNECTION = "Please check your internet connection";
   static const String UNKNOWN = "Some thing went wrong, Try again later";
   static const String DEFAULT = "Some thing went wrong, Try again later";
+}
+
+class APIsInternalStatus {
+  static const int SUCCESS = 0;
+  static const int FAILURE = 1;
 }
