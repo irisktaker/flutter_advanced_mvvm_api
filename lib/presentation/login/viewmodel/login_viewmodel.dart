@@ -1,14 +1,23 @@
+import 'dart:async';
+
 import 'package:advanced_flutter/presentation/base/base_viewmodel.dart';
 
 class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewModelOutputs{
+
+  // final StreamController _usernameStreamController = StreamController<String>(); //! only one listener
+  final StreamController _usernameStreamController = StreamController<String>.broadcast(); //? has many listeners (broadcast())
+  final StreamController _passwordStreamController = StreamController<String>.broadcast();
   
+
+
   // ******************************************
   //? INPUTS 
   // ******************************************
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    _usernameStreamController.close();
+    _passwordStreamController.close();
   }
 
   @override
@@ -17,12 +26,10 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   }
   
   @override
-  // TODO: implement inputPassword
-  Sink get inputPassword => throw UnimplementedError();
+  Sink get inputPassword => _passwordStreamController.sink;
   
   @override
-  // TODO: implement inputUsername
-  Sink get inputUsername => throw UnimplementedError();
+  Sink get inputUsername => _usernameStreamController.sink;
   
   @override
   setPassword(String password) {
@@ -46,14 +53,14 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   //? OUTPUTS 
   // ******************************************
   
-  @override
-  // TODO: implement outIsPasswordValid
-  Stream<bool> get outIsPasswordValid => throw UnimplementedError();
+  @override // changed the type from string to bool
+  Stream<bool> get outIsPasswordValid => _passwordStreamController.stream.map((pass) => _isPassValid(pass));
   
   @override
-  // TODO: implement outIsUsernameValid
-  Stream<bool> get outIsUsernameValid => throw UnimplementedError();
-  
+  Stream<bool> get outIsUsernameValid => _usernameStreamController.stream.map((username) => _isUsernameValid(username));
+
+  bool _isPassValid(String password) => password.isNotEmpty;
+  bool _isUsernameValid(String username) => username.isNotEmpty;
   
 }
 
