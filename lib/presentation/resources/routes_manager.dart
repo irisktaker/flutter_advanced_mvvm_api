@@ -3,7 +3,7 @@ import 'package:advanced_flutter/presentation/store_details/store_details_view.d
 import 'package:advanced_flutter/presentation/onboarding/view/onboarding_view.dart';
 import 'package:advanced_flutter/presentation/register/register_view.dart';
 import 'package:advanced_flutter/presentation/splash/splash_view.dart';
-import 'package:advanced_flutter/presentation/login/login_view.dart';
+import 'package:advanced_flutter/presentation/login/view/login_view.dart';
 import 'package:advanced_flutter/presentation/main/main_view.dart';
 
 import '/presentation/resources/all_resources.dart';

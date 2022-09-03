@@ -16,7 +16,7 @@ class OnboardingViewModel extends BaseViewModel with OnboardingViewModelInputs, 
   //    1- outputs called stream >> return the logical conditions results 
   //    2- inputs called sink >> sink contains all ui events - stream inputs //*/
 
-  //? compare inputs(ui events) with the outputs(stream - the code logic) then return a result
+  //? compare inputs(ui events) with the outputs(stream - the code logic) then return the result
   // --------------------------------------------------------------------------------------------------------- 
 
   final StreamController _streamController = StreamController<SliderViewObject>();
