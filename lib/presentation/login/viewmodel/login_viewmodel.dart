@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:advanced_flutter/presentation/base/base_viewmodel.dart';
+import 'package:advanced_flutter/presentation/common/freezed_data_classes.dart';
 
 class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewModelOutputs{
 
   // final StreamController _usernameStreamController = StreamController<String>(); //! only one listener
   final StreamController _usernameStreamController = StreamController<String>.broadcast(); //? has many listeners (broadcast())
   final StreamController _passwordStreamController = StreamController<String>.broadcast();
+
+  var loginObject = LoginObject("","");
 
   // ******************************************
   //? INPUTS 
@@ -32,11 +35,13 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   @override
   setPassword(String password) {
     _passwordStreamController.add(password);
+    loginObject = loginObject.copyWith(password: password);
   }
   
   @override
   setUsername(String username) {
     _usernameStreamController.add(username);
+    loginObject = loginObject.copyWith(username: username);
   }
   
   @override
