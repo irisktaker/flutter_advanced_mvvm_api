@@ -7,8 +7,6 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   // final StreamController _usernameStreamController = StreamController<String>(); //! only one listener
   final StreamController _usernameStreamController = StreamController<String>.broadcast(); //? has many listeners (broadcast())
   final StreamController _passwordStreamController = StreamController<String>.broadcast();
-  
-
 
   // ******************************************
   //? INPUTS 
@@ -33,14 +31,12 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   
   @override
   setPassword(String password) {
-    // TODO: implement setPassword
-    throw UnimplementedError();
+    _passwordStreamController.add(password);
   }
   
   @override
-  setUsername(String setUsername) {
-    // TODO: implement setUsername
-    throw UnimplementedError();
+  setUsername(String username) {
+    _usernameStreamController.add(username);
   }
   
   @override
@@ -61,11 +57,10 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
 
   bool _isPassValid(String password) => password.isNotEmpty;
   bool _isUsernameValid(String username) => username.isNotEmpty;
-  
 }
 
 abstract class LoginViewModelInputs {
-  setUsername(String setUsername);
+  setUsername(String username);
   setPassword(String password);
   login();
 
