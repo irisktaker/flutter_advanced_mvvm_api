@@ -32,7 +32,7 @@ class _OnboardingViewState extends State<OnboardingView> {
 
   @override
   Widget build(BuildContext context) {
-    // ! we must have stream listener to listen From the steam controller in this case in onboarding_viewmodel.dart file
+    // ! we must have stream listener to listen From the stream controller in this case in onboarding_viewmodel.dart file
    
     return StreamBuilder<SliderViewObject>(
       stream: _viewModel.outputSliderViewObject,
