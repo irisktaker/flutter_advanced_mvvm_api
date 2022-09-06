@@ -1,4 +1,3 @@
-import 'package:advanced_flutter/domain/usecase/login_usecase.dart';
 import 'package:advanced_flutter/presentation/login/viewmodel/login_viewmodel.dart';
 import 'package:advanced_flutter/presentation/resources/all_resources.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final LoginViewModel _viewModel = LoginViewModel();
+  final LoginViewModel _viewModel = LoginViewModel(_loginUseCase);
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey _formKey = GlobalKey<FormState>();
