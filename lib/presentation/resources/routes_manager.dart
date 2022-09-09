@@ -1,3 +1,4 @@
+import 'package:advanced_flutter/app/di.dart';
 import 'package:advanced_flutter/presentation/forget_password/forget_password_view.dart';
 import 'package:advanced_flutter/presentation/store_details/store_details_view.dart';
 import 'package:advanced_flutter/presentation/onboarding/view/onboarding_view.dart';
@@ -25,16 +26,25 @@ class RoutesGenerator {
     switch(settings.name) {
       case RoutesManager.splashRoute:
         return MaterialPageRoute(builder: (_) => const SplashView());
+      
       case RoutesManager.loginRoute:
-        return MaterialPageRoute(builder: (_) => const LoginView());
+        return MaterialPageRoute(builder: (_) {
+          initLoginModule();
+          return const LoginView();
+        });
+
       case RoutesManager.registerRoute:
         return MaterialPageRoute(builder: (_) => const RegisterView());
+
       case RoutesManager.forgetPasswordRoute:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordView());
+      
       case RoutesManager.mainRoute:
         return MaterialPageRoute(builder: (_) => const MainView());
+      
       case RoutesManager.storeDetailsRoute:
         return MaterialPageRoute(builder: (_) => const StoreDetailsView());
+      
       case RoutesManager.onboardingRoute: 
         return MaterialPageRoute(builder: (_) => const OnboardingView());
 
