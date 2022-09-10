@@ -44,9 +44,13 @@ class _LoginViewState extends State<LoginView> {
         body: StreamBuilder<FlowState>(
           stream: _viewModel.outputState,
           builder: (context, snapshot) {
-            return snapshot.data?.getScreenWidget(context, _getContentWidget(), () {
-              _viewModel.login();
-            }) ?? _getContentWidget();
+            return snapshot.data
+            ?.getScreenWidget(
+              context, _getContentWidget(), 
+              () {
+                _viewModel.login();
+              }
+            ) ?? _getContentWidget();
           },
         ),
       ),

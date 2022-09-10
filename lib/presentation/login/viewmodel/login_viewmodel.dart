@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:advanced_flutter/domain/usecase/login_usecase.dart';
 import 'package:advanced_flutter/presentation/base/base_viewmodel.dart';
 import 'package:advanced_flutter/presentation/common/freezed_data_classes.dart';
+import 'package:advanced_flutter/presentation/common/state_renderer/state_renderer.dart';
 import 'package:advanced_flutter/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:advanced_flutter/presentation/resources/logger.dart';
 
@@ -33,7 +34,8 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   @override
   void start() {
     // view model should tell the view please show the content state
-    inputState.add(ContentState());
+    inputState.add(ContentState()); // when screen load -> show the content of the screen first
+
   }
   
   @override
@@ -61,16 +63,25 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   
   @override
   login() async {
-    // inputState.add(LoadingState(stateRendererType));
+    inputState.add(LoadingState(StateRendererType.POPUP_LOADING_STATE));
+
     (await _loginUseCase.execute(LoginUseCaseInput(loginObject.username, loginObject.password))
       ).fold(
         (failure) => {
           //! l-> left - failure
-          LoggerDebug.loggerErrorMessage(failure.resMessage)
+
+          inputState.add(ErrorState(StateRendererType.POPUP_ERROR_STATE, failure.resMessage)),
+          LoggerDebug.loggerErrorMessage(failure.resMessage) // only for debug
+
         },
+
         (data) => {
           //? r-> right - data (success)
-          LoggerDebug.loggerInformationMessage(data.customer?.name)
+
+          inputState.add(ContentState()),
+          LoggerDebug.loggerInformationMessage(data.customer?.name) // only for debug
+
+          // navigate to main screen
         });
   }
 
