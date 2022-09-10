@@ -2,7 +2,6 @@
 import 'package:advanced_flutter/app/constants.dart';
 import 'package:advanced_flutter/presentation/common/state_renderer/state_renderer.dart';
 import 'package:advanced_flutter/presentation/resources/all_resources.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 abstract class FlowState {
@@ -90,6 +89,7 @@ extension FlowStateExtension on FlowState {
       }
 
       case ErrorState: {
+        dismissDialog(context);
         if(getStateRendererType() == StateRendererType.POPUP_ERROR_STATE) 
         {
           // show error popup 
@@ -111,6 +111,7 @@ extension FlowStateExtension on FlowState {
       }
 
       case ContentState: {
+        dismissDialog(context);
         return contentScreenWidget;
       }
 
@@ -123,11 +124,20 @@ extension FlowStateExtension on FlowState {
       }
         
       default: {
+        dismissDialog(context);
         return contentScreenWidget;
       }
     }
   }
 
+  _isCurrentDialogShowing(BuildContext context) => ModalRoute.of(context)?.isCurrent != true;
+
+  dismissDialog(BuildContext context) {
+    if(_isCurrentDialogShowing(context)) {
+      Navigator.of(context, rootNavigator: true).pop(true);
+    }
+  }
+  
   showPopUp(BuildContext context, StateRendererType stateRendererType, String message) {
     WidgetsBinding.instance.addPostFrameCallback((_) => showDialog(
       context: context, 
