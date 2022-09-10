@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:advanced_flutter/domain/usecase/login_usecase.dart';
 import 'package:advanced_flutter/presentation/base/base_viewmodel.dart';
 import 'package:advanced_flutter/presentation/common/freezed_data_classes.dart';
+import 'package:advanced_flutter/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:advanced_flutter/presentation/resources/logger.dart';
 
 class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewModelOutputs{
@@ -23,6 +24,7 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
 
   @override
   void dispose() {
+    super.dispose(); // -> call the dispose in the base_viewmodel.dart first
     _usernameStreamController.close();
     _passwordStreamController.close();
     _areAllInputValidStreamController.close();
@@ -30,7 +32,8 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
 
   @override
   void start() {
-    // TODO: implement start
+    // view model should tell the view please show the content state
+    inputState.add(ContentState());
   }
   
   @override
@@ -58,6 +61,7 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   
   @override
   login() async {
+    // inputState.add(LoadingState(stateRendererType));
     (await _loginUseCase.execute(LoginUseCaseInput(loginObject.username, loginObject.password))
       ).fold(
         (failure) => {

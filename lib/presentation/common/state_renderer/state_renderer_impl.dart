@@ -101,7 +101,7 @@ extension FlowStateExtension on FlowState {
 
         else 
         {
-          // full screen
+          // full screen error state
           return StateRenderer(
             stateRendererType: getStateRendererType(),
             message: getMessage(),
