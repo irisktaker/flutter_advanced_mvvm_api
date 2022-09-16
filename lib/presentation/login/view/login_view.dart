@@ -3,6 +3,7 @@ import 'package:advanced_flutter/presentation/common/state_renderer/state_render
 import 'package:advanced_flutter/presentation/login/viewmodel/login_viewmodel.dart';
 import 'package:advanced_flutter/presentation/resources/all_resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -21,6 +22,14 @@ class _LoginViewState extends State<LoginView> {
     _viewModel.start(); // tell the viewModel to start it's job
     _usernameController.addListener(() => _viewModel.setUsername(_usernameController.text));
     _passwordController.addListener(() => _viewModel.setPassword(_passwordController.text));
+    _viewModel.isUserLoggedInSuccessfullyStreamController.stream.listen((isLoggedIn) {
+      if(isLoggedIn) {
+        // navigate to main screen
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context).pushReplacementNamed(RoutesManager.mainRoute);
+        });
+      }
+    });
   }
 
   @override
@@ -37,22 +46,19 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        // resizeToAvoidBottomInset: false,
-        body: StreamBuilder<FlowState>(
-          stream: _viewModel.outputState,
-          builder: (context, snapshot) {
-            return snapshot.data
-            ?.getScreenWidget(
-              context, _getContentWidget(), 
-              () {
-                _viewModel.login();
-              }
-            ) ?? _getContentWidget();
-          },
-        ),
+    return Scaffold(
+      // resizeToAvoidBottomInset: false,
+      body: StreamBuilder<FlowState>(
+        stream: _viewModel.outputState,
+        builder: (context, snapshot) {
+          return snapshot.data
+          ?.getScreenWidget(
+            context, _getContentWidget(), 
+            () {
+              _viewModel.login();
+            }
+          ) ?? _getContentWidget();
+        },
       ),
     );
   }

@@ -95,7 +95,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 height: AppSize.s20,
                 child: SvgPicture.asset(ImageAssets.leftArrowIc),
               ),
-              onTap: () => _pageController.animateToPage(_viewModel.goPrevues(), duration: const Duration(milliseconds: AppConstants.sliderAnimationTime), curve: Curves.bounceInOut),
+              onTap: () => _pageController.animateToPage(_viewModel.goPrevious(), duration: const Duration(milliseconds: AppConstants.sliderAnimationTime), curve: Curves.bounceInOut),
             ),
           ),
   

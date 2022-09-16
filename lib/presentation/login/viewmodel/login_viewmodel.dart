@@ -13,6 +13,7 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   final StreamController _usernameStreamController = StreamController<String>.broadcast(); //? has many listeners (broadcast())
   final StreamController _passwordStreamController = StreamController<String>.broadcast();
   final StreamController _areAllInputValidStreamController = StreamController<void>.broadcast(); // return nothing
+  final StreamController isUserLoggedInSuccessfullyStreamController = StreamController<bool>(); // one listener
 
   var loginObject = LoginObject("","");
   final LoginUseCase _loginUseCase;
@@ -29,13 +30,13 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
     _usernameStreamController.close();
     _passwordStreamController.close();
     _areAllInputValidStreamController.close();
+    isUserLoggedInSuccessfullyStreamController.close();
   }
 
   @override
   void start() {
     // view model should tell the view please show the content state
     inputState.add(ContentState()); // when screen load -> show the content of the screen first
-
   }
   
   @override
@@ -49,39 +50,42 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   
   @override
   setPassword(String password) {
-    _passwordStreamController.add(password);
+    inputPassword.add(password);
     loginObject = loginObject.copyWith(password: password);
-    _areAllInputValidStreamController.add(null);
+    inputAreAllInputValid.add(null);
   }
   
   @override
   setUsername(String username) {
-    _usernameStreamController.add(username);
+    inputUsername.add(username);
     loginObject = loginObject.copyWith(username: username);
-    _areAllInputValidStreamController.add(null);
+    inputAreAllInputValid.add(null);
   }
   
   @override
   login() async {
     inputState.add(LoadingState(StateRendererType.POPUP_LOADING_STATE));
 
+    LoggerDebug.loggerInformationMessage("username: ${loginObject.username} password: ${loginObject.password}");
+
     (await _loginUseCase.execute(LoginUseCaseInput(loginObject.username, loginObject.password))
       ).fold(
-        (failure) => {
+        (failure) {
           //! l-> left - failure
 
-          inputState.add(ErrorState(StateRendererType.POPUP_ERROR_STATE, failure.resMessage)),
-          LoggerDebug.loggerErrorMessage(failure.resMessage) // only for debug
+          inputState.add(ErrorState(StateRendererType.POPUP_ERROR_STATE, failure.resMessage));
+          LoggerDebug.loggerErrorMessage(failure.resMessage); // only for debug
 
         },
 
-        (data) => {
+        (data) {
           //? r-> right - data (success)
 
-          inputState.add(ContentState()),
-          LoggerDebug.loggerInformationMessage(data.customer?.name) // only for debug
+          inputState.add(ContentState());
+          LoggerDebug.loggerInformationMessage(data.customer?.name); // only for debug
 
           // navigate to main screen
+          isUserLoggedInSuccessfullyStreamController.add(true);
         });
   }
 
@@ -90,7 +94,7 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   // ******************************************
   
   @override // changed the type from string to bool
-  Stream<bool> get outIsPasswordValid => _passwordStreamController.stream.map((pass) => _isPassValid(pass));
+  Stream<bool> get outIsPasswordValid => _passwordStreamController.stream.map((password) => _isPasswordValid(password));
   
   @override
   Stream<bool> get outIsUsernameValid => _usernameStreamController.stream.map((username) => _isUsernameValid(username));
@@ -98,9 +102,9 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   @override 
   Stream<bool> get outAreAllInputValid => _areAllInputValidStreamController.stream.map((_) => _areAllInputValid());
 
-  bool _isPassValid(String password) => password.isNotEmpty;
+  bool _isPasswordValid(String password) => password.isNotEmpty;
   bool _isUsernameValid(String username) => username.isNotEmpty;
-  bool _areAllInputValid() => _isPassValid(loginObject.password) && _isUsernameValid(loginObject.username);
+  bool _areAllInputValid() => _isPasswordValid(loginObject.password) && _isUsernameValid(loginObject.username);
 }
 
 abstract class LoginViewModelInputs {

@@ -36,6 +36,8 @@ class OnboardingViewModel extends BaseViewModel with OnboardingViewModelInputs, 
     _list = _getSliderData();
     _postDataToView();
   }
+
+  // ------------------
   
   @override
   int goNext() {  
@@ -47,7 +49,7 @@ class OnboardingViewModel extends BaseViewModel with OnboardingViewModelInputs, 
   }
   
   @override
-  int goPrevues() {
+  int goPrevious() {
     int prevuesIndex = --_currentIndex; // do action first
     if(prevuesIndex==0) {
       prevuesIndex = _list.length-1;
@@ -89,7 +91,7 @@ class OnboardingViewModel extends BaseViewModel with OnboardingViewModelInputs, 
 abstract class OnboardingViewModelInputs 
 {
   int goNext();
-  int goPrevues();
+  int goPrevious();
   void onPageChanged(int index); //! avoid using setState()
 
   //? stream controller input => sink

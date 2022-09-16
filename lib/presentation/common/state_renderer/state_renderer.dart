@@ -130,17 +130,17 @@ class StateRenderer extends StatelessWidget {
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: ElevatedButton(
-              onPressed: () {
-                if (stateRendererType == StateRendererType.FULL_SCREEN_ERROR_STATE) {
-                  // call retry function
-                  retryActionFunction.call();
+            onPressed: () {
+              if (stateRendererType == StateRendererType.FULL_SCREEN_ERROR_STATE) {
+                // call retry function
+                retryActionFunction.call();
 
-                } else {
-                  // popup error state
-                  Navigator.of(context).pop();
-                }
-              },
-              child: Text(buttonTitle))),
+              } else {
+                // popup error state
+                Navigator.of(context).pop();
+              }
+            },
+            child: Text(buttonTitle))),
       ),
     );
   }
