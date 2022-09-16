@@ -26,7 +26,8 @@ class _LoginViewState extends State<LoginView> {
       if(isLoggedIn) {
         // navigate to main screen
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          Navigator.of(context).pushReplacementNamed(RoutesManager.mainRoute);
+          // Navigator.of(context).pushReplacementNamed(RoutesManager.mainRoute);
+          Navigator.pushReplacementNamed(context, RoutesManager.mainRoute);
         });
       }
     });
@@ -50,7 +51,7 @@ class _LoginViewState extends State<LoginView> {
       // resizeToAvoidBottomInset: false,
       body: StreamBuilder<FlowState>(
         stream: _viewModel.outputState,
-        builder: (context, snapshot) {
+        builder: (context,AsyncSnapshot<FlowState> snapshot) {
           return snapshot.data
           ?.getScreenWidget(
             context, _getContentWidget(), 
@@ -76,7 +77,7 @@ class _LoginViewState extends State<LoginView> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    
+
                     // Login Field
                     StreamBuilder<bool>(
                       stream: _viewModel.outIsUsernameValid,
@@ -92,9 +93,9 @@ class _LoginViewState extends State<LoginView> {
                         );
                       },
                     ),
-                  
+
                     const SizedBox(height: AppSize.s10),
-                  
+
                     // Password Field
                     StreamBuilder<bool>(
                       stream: _viewModel.outIsPasswordValid,
@@ -111,9 +112,9 @@ class _LoginViewState extends State<LoginView> {
                         );
                       },
                     ),
-                  
+
                     const SizedBox(height: AppSize.s20),
-                  
+
                     // Button Action
                     StreamBuilder(
                       stream: _viewModel.outAreAllInputValid,
@@ -122,7 +123,7 @@ class _LoginViewState extends State<LoginView> {
                           width: MediaQuery.of(context).size.width,
                           height: AppSize.s48,
                           child: ElevatedButton(
-                            onPressed: (snapshot.data ?? false) 
+                            onPressed: (snapshot.data ?? false)
                             ? () {
                               _viewModel.login();
                             }
@@ -137,24 +138,24 @@ class _LoginViewState extends State<LoginView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        
+
                         TextButton(
                           onPressed: (){
                             Navigator.pushReplacementNamed(context, RoutesManager.forgetPasswordRoute);
-                          }, 
+                          },
                           child: Text(
                             StringManager.forgotPassword,
-                            style: Theme.of(context).textTheme.titleMedium,  
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
-                        
+
                         TextButton(
                           onPressed: (){
                             Navigator.pushReplacementNamed(context, RoutesManager.registerRoute);
-                          }, 
+                          },
                           child: Text(
                             StringManager.registerText,
-                            style: Theme.of(context).textTheme.titleMedium,    
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
 

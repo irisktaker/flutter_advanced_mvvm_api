@@ -61,7 +61,7 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
     loginObject = loginObject.copyWith(username: username);
     inputAreAllInputValid.add(null);
   }
-  
+
   @override
   login() async {
     inputState.add(LoadingState(StateRendererType.POPUP_LOADING_STATE));
@@ -73,16 +73,16 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
         (failure) {
           //! l-> left - failure
 
-          inputState.add(ErrorState(StateRendererType.POPUP_ERROR_STATE, failure.resMessage));
-          LoggerDebug.loggerErrorMessage(failure.resMessage); // only for debug
+          LoggerDebug.loggerErrorMessage(failure.message); // only for debug
+          inputState.add(ErrorState(StateRendererType.POPUP_ERROR_STATE, failure.message));
 
-        },
+        }, //t@test.com
 
         (data) {
           //? r-> right - data (success)
 
-          inputState.add(ContentState());
           LoggerDebug.loggerInformationMessage(data.customer?.name); // only for debug
+          inputState.add(ContentState());
 
           // navigate to main screen
           isUserLoggedInSuccessfullyStreamController.add(true);
