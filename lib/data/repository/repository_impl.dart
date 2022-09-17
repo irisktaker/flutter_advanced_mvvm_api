@@ -15,6 +15,10 @@ class RepositoryImpl implements Repository {
 
   RepositoryImpl(this._remoteDataSource, this._networkInfo);
 
+  // ******************************************
+  //? LOGIN REPOSITORY IMPL
+  // ******************************************
+
   @override
   Future<Either<Failure, Authentication>> login(LoginRequest loginRequest) async {
     if(await _networkInfo.isConnected) 
@@ -49,6 +53,10 @@ class RepositoryImpl implements Repository {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  // ******************************************
+  //? FORGOT PASSWORD REPOSITORY IMPL
+  // ******************************************
 
   @override
   Future<Either<Failure, String>> forgotPassword(String email) async {

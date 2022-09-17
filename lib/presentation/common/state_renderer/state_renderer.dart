@@ -9,6 +9,7 @@ enum StateRendererType {
   //? POPUP STATE (DIALOG)
   POPUP_LOADING_STATE,
   POPUP_ERROR_STATE,
+  POPUP_SUCCESS_STATE,
 
   //? FULL SCREEN STATE (FULL SCREEN)
   FULL_SCREEN_LOADING_STATE,
@@ -44,7 +45,15 @@ class StateRenderer extends StatelessWidget {
           _getMessage(message),
           _getRetryButton(StringManager.ok, context),
         ]);
-      
+
+      case StateRendererType.POPUP_SUCCESS_STATE:
+        return _getPopUpDialog(context, [
+          _getAnimatedJsonImage(JsonAssets.success),
+          _getMessage(title),
+          _getMessage(message),
+          _getRetryButton(StringManager.ok, context),
+        ]);
+
       case StateRendererType.FULL_SCREEN_LOADING_STATE:
         return _getItemsColumn([_getAnimatedJsonImage(JsonAssets.loading), _getMessage(message)]);
 
@@ -114,11 +123,11 @@ class StateRenderer extends StatelessWidget {
     );
   }
 
-   Widget _getMessage(String message) {
+  Widget _getMessage(String message) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppPadding.p8),
-        child: Text(message,style: getRegularStyle(ColorManager.black, FontSize.f18)),
+        child: Text(message,style: getRegularStyle(ColorManager.black, FontSize.f18), textAlign: TextAlign.center),
       ),
     );
   }

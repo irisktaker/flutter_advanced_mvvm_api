@@ -48,7 +48,8 @@ class ForgotPasswordViewModel extends BaseViewModel with ForgotPasswordViewModel
           },
           (success) {
             LoggerDebug.loggerInformationMessage(success); // only for debug
-            inputState.add(ContentState());
+
+            inputState.add(SuccessState(StateRendererType.POPUP_SUCCESS_STATE, "success\n$success"));
           }
     );
   }
