@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:advanced_flutter/app/functions.dart';
 import 'package:advanced_flutter/domain/usecase/register_usecase.dart';
 import 'package:advanced_flutter/presentation/base/base_viewmodel.dart';
+import 'package:advanced_flutter/presentation/common/freezed_data_classes.dart';
 import 'package:advanced_flutter/presentation/resources/all_resources.dart';
 
 class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, RegisterViewModelOutput{
@@ -14,6 +15,8 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
   final StreamController _passwordStreamController = StreamController<String>.broadcast();
   final StreamController _profilePictureStreamController = StreamController<File>.broadcast();
   final StreamController _areAllInputValidStreamController = StreamController<File>.broadcast();
+
+  RegisterObject registerObject = RegisterObject("", "", "", "", "", "");
 
   final RegisterUseCase _registerUseCase;
   RegisterViewModel(this._registerUseCase);
