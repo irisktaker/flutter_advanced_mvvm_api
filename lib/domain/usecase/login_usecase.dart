@@ -15,7 +15,6 @@ class LoginUseCase implements BaseUseCase<LoginUseCaseInput, Authentication> {
   }
 }
 
-
 class LoginUseCaseInput {
   String email;
   String password;

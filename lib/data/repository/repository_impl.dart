@@ -85,4 +85,43 @@ class RepositoryImpl implements Repository {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
+
+  // ******************************************
+  //? REGISTER REPOSITORY IMPL
+  // ******************************************
+
+  @override
+  Future<Either<Failure, Authentication>> register(RegisterRequest registerRequest) async {
+    if(await _networkInfo.isConnected)
+    {
+      // internet connected, safe to call the API
+
+      LoggerDebug.loggerInformationMessage("networkInfo isConnected ${_networkInfo.isConnected}");
+
+      try {
+        final response = await _remoteDataSource.register(registerRequest);
+
+        if(response.status == APIsInternalStatus.SUCCESS) { // we define status 0 as success in mocLab server
+          //? success -- return data -- return either right
+          LoggerDebug.loggerInformationMessage("response success ${response.toDomain()}");
+          return Right(response.toDomain());
+
+        } else {
+          // failure -- business error -- return either left
+          LoggerDebug.loggerErrorMessage("response failure ${APIsInternalStatus.FAILURE} , ${response.message}");
+          return Left(Failure(APIsInternalStatus.FAILURE, response.message ?? ResponseMessage.DEFAULT));
+        }
+      } catch (error) {
+        LoggerDebug.loggerErrorMessage("Catch an error $error");
+        return Left(ErrorHandler.errorHandler(error).failure);
+      }
+    }
+    else
+    {
+      // no internet connected, show internet not connected error message
+      // return either left
+      LoggerDebug.loggerErrorMessage("Error ${DataSource.NO_INTERNET_CONNECTION.getFailure()}");
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }
