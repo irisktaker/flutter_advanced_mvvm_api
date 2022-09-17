@@ -1,3 +1,4 @@
+import 'package:advanced_flutter/app/app_prefs.dart';
 import 'package:advanced_flutter/app/di.dart';
 import 'package:advanced_flutter/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:advanced_flutter/presentation/login/viewmodel/login_viewmodel.dart';
@@ -16,6 +17,7 @@ class _LoginViewState extends State<LoginView> {
   final LoginViewModel _viewModel = instance<LoginViewModel>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AppPreferences _preferences = instance<AppPreferences>();
   final GlobalKey _formKey = GlobalKey<FormState>();
 
   _bind() {
@@ -26,8 +28,8 @@ class _LoginViewState extends State<LoginView> {
       if(isLoggedIn) {
         // navigate to main screen
         SchedulerBinding.instance.addPostFrameCallback((_) {
-          // Navigator.of(context).pushReplacementNamed(RoutesManager.mainRoute);
-          Navigator.pushReplacementNamed(context, RoutesManager.mainRoute);
+          _preferences.setUserLoggedIn();
+          Navigator.of(context).pushReplacementNamed(RoutesManager.mainRoute);
         });
       }
     });
@@ -141,7 +143,7 @@ class _LoginViewState extends State<LoginView> {
 
                         TextButton(
                           onPressed: (){
-                            Navigator.pushReplacementNamed(context, RoutesManager.forgetPasswordRoute);
+                            Navigator.pushNamed(context, RoutesManager.forgetPasswordRoute);
                           },
                           child: Text(
                             StringManager.forgotPassword,
@@ -151,7 +153,7 @@ class _LoginViewState extends State<LoginView> {
 
                         TextButton(
                           onPressed: (){
-                            Navigator.pushReplacementNamed(context, RoutesManager.registerRoute);
+                            Navigator.pushNamed(context, RoutesManager.registerRoute);
                           },
                           child: Text(
                             StringManager.registerText,

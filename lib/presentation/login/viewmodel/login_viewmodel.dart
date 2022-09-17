@@ -16,8 +16,8 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   final StreamController isUserLoggedInSuccessfullyStreamController = StreamController<bool>(); // one listener
 
   var loginObject = LoginObject("","");
-  final LoginUseCase _loginUseCase;
 
+  final LoginUseCase _loginUseCase;
   LoginViewModel(this._loginUseCase);
 
   // ******************************************
@@ -65,7 +65,6 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
   @override
   login() async {
     inputState.add(LoadingState(StateRendererType.POPUP_LOADING_STATE));
-
     LoggerDebug.loggerInformationMessage("username: ${loginObject.username} password: ${loginObject.password}");
 
     (await _loginUseCase.execute(LoginUseCaseInput(loginObject.username, loginObject.password))
@@ -76,7 +75,7 @@ class LoginViewModel extends BaseViewModel with LoginViewModelInputs, LoginViewM
           LoggerDebug.loggerErrorMessage(failure.message); // only for debug
           inputState.add(ErrorState(StateRendererType.POPUP_ERROR_STATE, failure.message));
 
-        }, //t@test.com
+        },
 
         (data) {
           //? r-> right - data (success)

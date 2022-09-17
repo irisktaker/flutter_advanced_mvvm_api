@@ -1,8 +1,9 @@
+import 'package:advanced_flutter/app/app_prefs.dart';
+import 'package:advanced_flutter/app/di.dart';
 import 'package:advanced_flutter/domain/models/models.dart';
 import 'package:advanced_flutter/presentation/onboarding/viewmodel/onboarding_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '/presentation/resources/all_resources.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -15,11 +16,17 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   late final PageController _pageController;
   final OnboardingViewModel _viewModel = OnboardingViewModel();
+  final AppPreferences _preferences = instance<AppPreferences>();
+
+  _bind() {
+    _preferences.setOnBoardingViewed();
+    _viewModel.start();
+  }
 
   @override
   void initState() {
     super.initState();
-    _viewModel.start();
+    _bind();
     _pageController = PageController();
   }
 
