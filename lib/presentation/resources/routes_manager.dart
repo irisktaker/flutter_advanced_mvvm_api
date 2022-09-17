@@ -2,7 +2,7 @@ import 'package:advanced_flutter/app/di.dart';
 import 'package:advanced_flutter/presentation/forget_password/view/forget_password_view.dart';
 import 'package:advanced_flutter/presentation/store_details/store_details_view.dart';
 import 'package:advanced_flutter/presentation/onboarding/view/onboarding_view.dart';
-import 'package:advanced_flutter/presentation/register/register_view.dart';
+import 'package:advanced_flutter/presentation/register/view/register_view.dart';
 import 'package:advanced_flutter/presentation/splash/splash_view.dart';
 import 'package:advanced_flutter/presentation/login/view/login_view.dart';
 import 'package:advanced_flutter/presentation/main/main_view.dart';
