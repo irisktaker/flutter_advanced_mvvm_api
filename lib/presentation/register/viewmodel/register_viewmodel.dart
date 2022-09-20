@@ -7,6 +7,7 @@ import 'package:advanced_flutter/domain/usecase/register_usecase.dart';
 import 'package:advanced_flutter/presentation/base/base_viewmodel.dart';
 import 'package:advanced_flutter/presentation/common/freezed_data_classes.dart';
 import 'package:advanced_flutter/presentation/resources/all_resources.dart';
+import 'package:flutter/cupertino.dart';
 
 class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, RegisterViewModelOutput{
   final StreamController _usernameStreamController = StreamController<String>.broadcast();
@@ -57,6 +58,68 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
   Sink get inputUserName => _usernameStreamController.sink;
 
 
+  @override
+  setUsername(String username) {
+    if(_isUserNameValid(username)) {
+      // update register view object
+      registerObject = registerObject.copyWith(username: username);
+    } else {
+      // reset user value in register view object
+      registerObject = registerObject.copyWith(username: "");
+    }
+  }
+
+  @override
+  setEmail(String email) {
+    if(isEmailValid(email)) {
+      registerObject = registerObject.copyWith(email: email);
+    } else {
+      registerObject = registerObject.copyWith(email: "");
+    }
+  }
+
+  @override
+  setMobileNumber(String mobileNumber) {
+    if(_isMobileNumberValid(mobileNumber)) {
+      registerObject = registerObject.copyWith(mobileNumber: mobileNumber);
+    } else {
+      registerObject = registerObject.copyWith(mobileNumber: "");
+    }
+  }
+
+  @override
+  setPassword(String password) {
+    if(_isPasswordValid(password)) {
+      registerObject = registerObject.copyWith(password: password);
+    } else {
+      registerObject = registerObject.copyWith(password: "");
+    }
+  }
+
+  @override
+  setProfilePicture(File profilePicture) {
+    if(profilePicture.path.isNotEmpty) {
+      registerObject = registerObject.copyWith(profilePicture: profilePicture.path);
+    } else {
+      registerObject = registerObject.copyWith(profilePicture: "");
+    }
+  }
+
+  @override
+  setCountryCode(String countryCode) {
+    if(countryCode.isNotEmpty) {
+      registerObject = registerObject.copyWith(countryMobileCode: countryCode);
+    } else {
+      registerObject = registerObject.copyWith(countryMobileCode: "");
+    }
+  }
+
+
+  @override
+  register() {
+    // TODO: implement register
+    throw UnimplementedError();
+  }
 
   // ******************************************
   //? OUTPUTS
@@ -88,7 +151,6 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
   Stream<bool> get outputIsPasswordValid => _passwordStreamController.stream.map((event) => _isPasswordValid(event));
 
   @override
-  // TODO: implement outputIsProfilePictureValid
   Stream<File> get outputIsProfilePictureValid => _profilePictureStreamController.stream.map((file) => file);
 
   @override
@@ -116,6 +178,15 @@ abstract class RegisterViewModelInput
   Sink get inputEmail;
   Sink get inputPassword;
   Sink get inputProfilePicture;
+
+  setUsername(String username);
+  setMobileNumber(String mobileNumber);
+  setEmail(String email);
+  setPassword(String password);
+  setProfilePicture(File profilePicture);
+  setCountryCode(String countryCode);
+
+  register();
 }
 
 abstract class RegisterViewModelOutput
