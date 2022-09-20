@@ -57,6 +57,8 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
   @override
   Sink get inputUserName => _usernameStreamController.sink;
 
+  @override
+  Sink get inputAllInputsValid => _areAllInputValidStreamController.sink;
 
   @override
   setUsername(String username) {
@@ -67,6 +69,7 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
       // reset user value in register view object
       registerObject = registerObject.copyWith(username: "");
     }
+    validate();
   }
 
   @override
@@ -76,6 +79,7 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
     } else {
       registerObject = registerObject.copyWith(email: "");
     }
+    validate();
   }
 
   @override
@@ -85,6 +89,7 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
     } else {
       registerObject = registerObject.copyWith(mobileNumber: "");
     }
+    validate();
   }
 
   @override
@@ -94,6 +99,7 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
     } else {
       registerObject = registerObject.copyWith(password: "");
     }
+    validate();
   }
 
   @override
@@ -103,6 +109,7 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
     } else {
       registerObject = registerObject.copyWith(profilePicture: "");
     }
+    validate();
   }
 
   @override
@@ -112,6 +119,7 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
     } else {
       registerObject = registerObject.copyWith(countryMobileCode: "");
     }
+    validate();
   }
 
 
@@ -156,6 +164,9 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
   @override
   Stream<bool> get outputIsUserNameValid => _usernameStreamController.stream.map((event) => _isUserNameValid(event));
 
+  @override
+  Stream<bool> get outputIsAllInputsValid => _areAllInputValidStreamController.stream.map((_) => _isAllInputValid());
+
   // ******************************************
   //? PRIVATE FUNCTION
   // ******************************************
@@ -169,6 +180,19 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
     return password.length >= 8;
   }
 
+  bool _isAllInputValid() {
+    return registerObject.countryMobileCode.isNotEmpty
+        && registerObject.mobileNumber.isNotEmpty
+        && registerObject.username.isNotEmpty
+        && registerObject.profilePicture.isNotEmpty
+        && registerObject.email.isNotEmpty
+        && registerObject.password.isNotEmpty;
+  }
+
+  validate() {
+    inputAllInputsValid.add(null);
+  }
+
 }
 
 abstract class RegisterViewModelInput
@@ -178,6 +202,8 @@ abstract class RegisterViewModelInput
   Sink get inputEmail;
   Sink get inputPassword;
   Sink get inputProfilePicture;
+
+  Sink get inputAllInputsValid;
 
   setUsername(String username);
   setMobileNumber(String mobileNumber);
@@ -203,4 +229,6 @@ abstract class RegisterViewModelOutput
   Stream<String?> get outputErrorMobileNumberValid;
   Stream<String?> get outputErrorEmailValid;
   Stream<String?> get outputErrorPasswordValid;
+
+  Stream<bool> get outputIsAllInputsValid;
 }
