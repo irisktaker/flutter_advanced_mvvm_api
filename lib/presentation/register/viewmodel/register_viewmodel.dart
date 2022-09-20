@@ -6,6 +6,8 @@ import 'package:advanced_flutter/app/functions.dart';
 import 'package:advanced_flutter/domain/usecase/register_usecase.dart';
 import 'package:advanced_flutter/presentation/base/base_viewmodel.dart';
 import 'package:advanced_flutter/presentation/common/freezed_data_classes.dart';
+import 'package:advanced_flutter/presentation/common/state_renderer/state_renderer.dart';
+import 'package:advanced_flutter/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:advanced_flutter/presentation/resources/all_resources.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -124,10 +126,30 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
 
 
   @override
-  register() {
-    // TODO: implement register
-    throw UnimplementedError();
+  register() async {
+    inputState.add(LoadingState(StateRendererType.POPUP_LOADING_STATE));
+    LoggerDebug.loggerInformationMessage(
+        "username: ${registerObject.username} password: ${registerObject.password}"
+            "email: ${registerObject.email} countryMobileCode: ${registerObject.countryMobileCode} mobileNumber: ${registerObject.mobileNumber} "
+            "profilePicture: ${registerObject.profilePicture}");
+
+    (await _registerUseCase.execute(RegisterUseCaseInput(registerObject.username, registerObject.countryMobileCode,
+        registerObject.mobileNumber, registerObject.email, registerObject.password, registerObject.profilePicture))
+    ).fold(
+            (failure) {
+              LoggerDebug.loggerErrorMessage(failure.message);
+              inputState.add(ErrorState(StateRendererType.POPUP_ERROR_STATE, failure.message));
+            },
+
+            (success) {
+              LoggerDebug.loggerInformationMessage(success.customer?.name);
+              inputState.add(ContentState());
+
+              // navigate to main screen
+              // isUserLoggedInSuccessfullyStreamController.add(true);
+            });
   }
+
 
   // ******************************************
   //? OUTPUTS
