@@ -1,4 +1,5 @@
 import 'package:advanced_flutter/app/di.dart';
+import 'package:advanced_flutter/presentation/common/state_renderer/state_renderer_impl.dart';
 import 'package:advanced_flutter/presentation/register/viewmodel/register_viewmodel.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +39,17 @@ class _RegisterViewState extends State<RegisterView> {
   }
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder<FlowState>(
+        stream: _viewModel.outputState,
+        builder: (BuildContext context, AsyncSnapshot<FlowState> snapshot) {
+          return snapshot.data?.getScreenWidget(context, _getContentWidget(), (){}) ?? _getContentWidget();
+        },
+      ),
+    );
+  }
+
+  Widget _getContentWidget() {
     return Container();
   }
 }
