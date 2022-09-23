@@ -1,5 +1,7 @@
 import 'package:advanced_flutter/domain/usecase/forgot_password_usecase.dart';
+import 'package:advanced_flutter/domain/usecase/register_usecase.dart';
 import 'package:advanced_flutter/presentation/forget_password/viewmodel/forget_password_viewmodel.dart';
+import 'package:advanced_flutter/presentation/register/viewmodel/register_viewmodel.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,5 +57,12 @@ initForgotPasswordModule() {
   if(!GetIt.I.isRegistered<ForgotPasswordUseCase>()) {
     instance.registerFactory<ForgotPasswordUseCase>(() => ForgotPasswordUseCase(instance()));
     instance.registerFactory<ForgotPasswordViewModel>(() => ForgotPasswordViewModel(instance<ForgotPasswordUseCase>()));
+  }
+}
+
+initRegisterModule(){
+  if(!GetIt.I.isRegistered<RegisterUseCase>()){
+    instance.registerFactory<RegisterUseCase>(() => RegisterUseCase(instance()));
+    instance.registerFactory<RegisterViewModel>(() => RegisterViewModel(instance<RegisterUseCase>()));
   }
 }

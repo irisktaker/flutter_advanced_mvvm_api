@@ -26,7 +26,7 @@ class RegisterViewModel extends BaseViewModel with RegisterViewModelInput, Regis
 
   @override
   void start() {
-    // TODO: implement start
+    inputState.add(ContentState());
   }
 
   @override

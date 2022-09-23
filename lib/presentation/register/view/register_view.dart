@@ -11,13 +11,19 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   final RegisterViewModel _viewModel = instance<RegisterViewModel>();
+  final GlobalKey _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameTextEditingController = TextEditingController();
   final TextEditingController _mobileNumberTextEditingController = TextEditingController();
   final TextEditingController _emailTextEditingController = TextEditingController();
   final TextEditingController _passwordTextEditingController = TextEditingController();
-  final TextEditingController _profilePictureTextEditingController = TextEditingController();
 
-  _bind() {}
+  _bind() {
+    _viewModel.start();
+    _usernameTextEditingController.addListener(() => _viewModel.setUsername(_usernameTextEditingController.text));
+    _mobileNumberTextEditingController.addListener(() => _viewModel.setMobileNumber(_mobileNumberTextEditingController.text));
+    _emailTextEditingController.addListener(() => _viewModel.setEmail(_emailTextEditingController.text));
+    _passwordTextEditingController.addListener(() => _viewModel.setPassword(_passwordTextEditingController.text));
+  }
 
   @override
   void initState() {
