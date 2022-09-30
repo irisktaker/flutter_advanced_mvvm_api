@@ -17,10 +17,17 @@ class StringManager {
   static const String login = "Login";
   static const String forgotPassword = "Forgot Password";
   static const String registerText = "Not a member? Sign up";
+  static const String alreadyHaveAccount = "Already have an account ? Login";
+  static const String register = "Register";
+  static const String mobileNumber = "Mobile Number";
+  static const String profilePicture = "Profile Picture";
+  static const String photoGallery = "Photo from galley";
+  static const String photoCamera = "Photo from camera";
 
   // error strings
   static const String usernameError = "Please enter your username";
   static const String passwordError = "Please enter your password";
+
   // invalid error strings
   static const String invalidEmail = "Invalid Email";
   static const String invalidUsername = "Username must be at least 8 characters";

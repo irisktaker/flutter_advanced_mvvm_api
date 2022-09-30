@@ -4,7 +4,7 @@ class Constants {
   static const String token = "Send Token Here";
   static const int apiTimeOut = 60*1000;
   
-  // handel empty (null) values
+  // handle empty (null) values
   static const String empty = "";
   static const int zero = 0;
   static const double zeroDouble = 0.0;

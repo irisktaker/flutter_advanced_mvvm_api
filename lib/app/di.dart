@@ -4,6 +4,7 @@ import 'package:advanced_flutter/presentation/forget_password/viewmodel/forget_p
 import 'package:advanced_flutter/presentation/register/viewmodel/register_viewmodel.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -64,5 +65,6 @@ initRegisterModule(){
   if(!GetIt.I.isRegistered<RegisterUseCase>()){
     instance.registerFactory<RegisterUseCase>(() => RegisterUseCase(instance()));
     instance.registerFactory<RegisterViewModel>(() => RegisterViewModel(instance<RegisterUseCase>()));
+    instance.registerFactory<ImagePicker>(() => ImagePicker());
   }
 }
